@@ -6,22 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> DLT log message</title>
         <link rel="stylesheet" href="main.css">
+        <script src="popup.js"></script>
     </head>
 
-    <body class="dark-theme" style="text-align: center;">
+    <body class="light-theme" style="text-align: center;">
         <h1>DLT log message</h1>
-        <p id="msg">Current tasks: </p>
-        <ul>
-            <li class="list">Add visual style</li>
-            <li class="list">Add light and dark theme</li>
-            <li>Enable switching the theme</li>
-        </ul>
+        <p id="msg">Choose file to upload </p>
+        
         <!--Create button-->
-        <div>
-            <button class="btn">Dark</button>
-        </div>
+        <input id="files" type="file" min="100" max="300" name="files[]" required>
+        <button onclick="myFunction()">Browse...</button>
+        
+        <p id="msg"></p>
+
+        <button id="buttonjs">Reload</button>
+
         <!--Fault tolerance and event button-->
-        <script src="app.js"></script>
+        <script src="openfile.js"></script>
         <noscript>Enable JavaScript to view full site</noscript>
     </body>
 </html>

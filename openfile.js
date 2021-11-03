@@ -12,3 +12,13 @@ switcher.addEventListener('click', function(){
     }
     console.log('current class name: '+className);
 });
+
+function myFunction(){
+    const inpObj=document.getElementById("id1");
+    if(!inpObj.checkValidity()){
+        document.getElementById("msg").innerHTML="Please choose file";
+    }
+    else{
+        document.getElementById("msg").innerHTML="Input is accepted";
+    }
+}
