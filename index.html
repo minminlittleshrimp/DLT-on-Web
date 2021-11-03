@@ -14,9 +14,10 @@
         <p id="msg">Choose file to upload </p>
         
         <!--Create button-->
-        <input id="files" type="file" min="100" max="300" name="files[]" required>
-        <button onclick="myFunction()">Browse...</button>
-        
+        <input id="files" type="file" name="files[]" multiple>
+        <output id="list"></output>
+        <button onclick="myFunction()">Show log</button>
+
         <p id="msg"></p>
 
         <button id="buttonjs">Reload</button>
