@@ -20,7 +20,7 @@ function previewFile() {
   const input = document.querySelector('input');
   const reader = new FileReader();
   const fileByteArray = [];
-  const array4Bytes = [];
+  hex4Bytes = [];
 
   input.addEventListener('change', (e) => {
     reader.readAsArrayBuffer(e.target.files[0]);
@@ -29,17 +29,27 @@ function previewFile() {
       if (evt.target.readyState === FileReader.DONE) {
         const arrayBuffer = evt.target.result;
         
-        array4Bytes = new Uint32Array(arrayBuffer);
-        for (const a of array4Bytes) {
-
+        array = new Uint8Array(arrayBuffer);
+        hex1Byte = toHexString(array);
+        var countByte = 0;
+        for (const a of hex1Byte) {
+          if (countByte < 4){
+            hex4Bytes.push(a);
+            countByte = countByte+1;
+          }
+          else{
+            fileByteArray.push(hex4Bytes);
+            hex4Bytes = [];
+            countByte = 0;
+          }
+          
           /*if(detectPattern(a)){
             epoch2BrokenTime()
           }  */      
-          fileByteArray.push(a);
-          fileByteArray.push(" ");
+          
           
         }
-        console.log((fileByteArray));
+        console.log(fileByteArray);
       }
     }
   })
