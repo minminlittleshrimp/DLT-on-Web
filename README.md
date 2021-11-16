@@ -1,5 +1,5 @@
 # PLUGIN
-Brief description about the project
+Brief description about the project!
 
 1. Scope:
 -The aim of this project is to create a plugin used for log viewing on website. The plugin is first used for local network and then can be enhance for online update (might be realtime).
@@ -8,6 +8,7 @@ Brief description about the project
 -First, the idea is to simply build a tool helping user or client view the log data stored inside the system. The tool must contain a feature helping browse action and can upload the log file onto web page. Then the web page will be written in HTML.
 
 3. Requirements and Limits:
+
     a. Requirements:
         -Web page (UI) must be user-friendly and be able to detect correctly the log files.
         -The plugin can upload and convert binary file into ascii (human readable text).
