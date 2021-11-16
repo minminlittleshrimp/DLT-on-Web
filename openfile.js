@@ -4,17 +4,18 @@ function toHexString(byteArray) {
     (output + ('0' + elem.toString(16)).slice(-2)),'');
 };
 
-//slice string to Byte element
-/*function chunkString(str, length) {
-  return str.match(new RegExp('.{1,' + length + '}', 'g'));
-};*/
-
-//Components of header
-const lineIndex = [];
-
-var dateTime;
-var microSecond; 
-var headerStr; 
+/*Components of header:
++Pattern: DLT0x01 done
++Broken time (ISO C) done
++Microsecond of broken time done
++Epoch of system/Timestamp
++Msg counter
++ECU ID
++APP ID
++Info of msg type and length
++Verbose status
++Number of arguments
+*/
 
 function detectPattern(strInput){
   //define pattern DLT0x01 = 444c 5401 as regular expression
@@ -23,13 +24,6 @@ function detectPattern(strInput){
     lineIndex.push(patternDLT.lastIndex);
   }
 };
-
-/*function hex2Ascii(hex) {
-  var str = '';
-  for (var i = 0; i < hex.length; i += 2)
-      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  return str;
-}*/
 
 function epoch2Second(str, index){
   //Extract epoch second - second counted from 1.1.1970
@@ -44,23 +38,29 @@ function epoch2Second(str, index){
 
 function epoch2BrokenTime(str, index){
   var decimalStr = epoch2Second(str, index);
+
   //Epoch to date
   dateTime = new Date(decimalStr*1000); 
   dateTime = dateTime.toISOString(decimalStr);
   
   //Reformat
-  return dateTime = dateTime.replace('-', '/').replace('-', '/').replace('T', ' ').replace('000Z', ' ');
-  //document.getElementById('list').innerHTML = '<ul>' + dateTime + '</ul>';
+  return dateTime = dateTime.replace('-', '/')
+                            .replace('-', '/')
+                            .replace('T', ' ')
+                            .replace('000Z', ' ');
 };
 
 function epoch2Microsecond(str, index){
   microSecond = epoch2Second(str, index).toString();
-  //document.getElementById('list').innerHTML = '<ul>' + microSecond + '</ul>';
-
 };
 
 
+var headerStr = [];
+var dateTime = "";
+var microSecond = "";
+lineIndex = [];
 
+//Main function handle click event and output log
 function handleFileSelect() 
 {
   const input = document.querySelector('input');
@@ -68,7 +68,7 @@ function handleFileSelect()
   const fileByteArray = [];
   hex1Byte = '';
   
-
+  //Handle input event. Status: 1 file handling
   input.addEventListener
   ('change', (e) => 
     {
@@ -78,7 +78,8 @@ function handleFileSelect()
         if (evt.target.readyState === FileReader.DONE) 
         {
           const arrayBuffer = evt.target.result;
-        
+
+          //Format file in 1-byte-string type
           array = new Uint8Array(arrayBuffer);
         
           for (const a of array)
@@ -86,27 +87,19 @@ function handleFileSelect()
             fileByteArray.push(a);
           };
           hex1Byte = toHexString(fileByteArray);
-          //hexFile = toHexString(fileByteArray);
-          //hex1Byte = chunkString(hexFile, 1).join('');
           detectPattern(hex1Byte);
-          //console.log();
-          //for (const i of lineIndex){
-          epoch2BrokenTime(hex1Byte, 8);
-          epoch2Microsecond(hex1Byte, 8+8);
-          headerStr = dateTime + microSecond;
-          console.log(dateTime);
-          console.log(microSecond);
+          for (let i = 0; i < lineIndex.length; i++){
+            epoch2BrokenTime(hex1Byte, lineIndex[i]);
+            epoch2Microsecond(hex1Byte, lineIndex[i]+8);
+            headerStr[i] = i.toString() + ' ' + dateTime + microSecond +'<br>';
+          }
 
-          document.getElementById('list').innerHTML = '<ul>' + dateTime + '</ul>';
-          document.getElementById('list').innerHTML = '<ul>' + microSecond + '</ul>';
-          document.getElementById('list').innerHTML = '<ul>' + headerStr + '</ul>';
-
-          //}
+          headerStr=headerStr.join("");
+          document.getElementById('list').innerHTML = headerStr;
         } 
       }
     }
   )
 };
-
 
 document.getElementById('files').addEventListener('click', handleFileSelect, false);
