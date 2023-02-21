@@ -1,4 +1,4 @@
-# PLUGIN
+# DLT PLUGIN
 ## Brief description about the project!
 
 ### 1.  Scope:
