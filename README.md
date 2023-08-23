@@ -4,6 +4,7 @@
 ## Brief description about the project!
 
 ### 1.  Scope:
+   - This project is based on COVESA/DLT-Daemon project
 
    - The aim of this project is to create a plugin used for log viewing on website. The plugin is first used for local network and then can be enhance for online update (might be realtime).
 
