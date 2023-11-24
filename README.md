@@ -3,6 +3,7 @@
 
 ## Brief description about the project!
 ## DLT header format:
+```
 +Pattern: DLT0x01
 +Broken time (ISO C)
 +Microsecond of broken time
@@ -13,7 +14,7 @@
 +Info of msg type and length
 +Verbose status
 +Number of arguments
-
+```
 ### 1.  Scope:
    - This project is based on COVESA/DLT-Daemon
 
